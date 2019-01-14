@@ -1,5 +1,12 @@
 new[new == '#NA'] <- ""                                                         # replace multiple values
-new[,`:=`(new1 = "a", new2 = "b", new3 = "c", new4 = "d", HAS.FIN= "NO", HAS.STU = "NO", RACF_ID = "NO", ended_position = "NO")]            # add new columns
+new[, c(1, 8, 10:15) := ""]                                                     # replace by ref    https://tinyurl.com/y8chogc8
+# rename columns                                                                                    https://tinyurl.com/ybw8dgqn
+setnames(new, old = c("Emplid2", "New_Job_Action_Code", "New_Job_Action_Reason_Code", "Job_Indicator2", "Employee_Record2", "Position_No_Descr1", "Dept_ID_Descr", "X"), 
+              new = c("position_title", "emp_status", "status_change", "recomm_action", "dept_number", "assgn_beg_date", "assgn_end_date", "position_dept"))
+new[,`:=`(HAS.FIN= "NO", HAS.STU = "NO", RACF_ID = "NO", ended_position = "NO", position_title = "", has_curr_assn = "", has_futr_assn = "")] # add new columns
+# new[,`:=`(new1 = "a", new2 = "b", new3 = "c", new4 = "d", HAS.FIN= "NO", HAS.STU = "NO", RACF_ID = "NO", ended_position = "NO")]            # add new columns
+# setnames(new, "Employee_Record2", "dept_number")                              # rename columns    https://tinyurl.com/ybent33e
+
 new <- 
   new %>%
   filter(grepl("^8", Badge_No2)) %>%
@@ -21,4 +28,9 @@ new <-
   # new <- new[, c(13:14, 1:11)]                                                # reorder columns   https://tinyurl.com/c3s3fl5
   # new[, ('HAS.FIN.') :="NO"]                                                  # add column        https://tinyurl.com/h8tm6t8
 
+# # data.table replace column values by reference
+
 new[new == '#NA - #NA'] <- ""
+new<-data.table(new[, c(13:14, 2:3, 15, 4:5, 7, 6, 8:9, 16, 1, 10:12, 17:18)])
+
+write.xlsx(new, "reports/access_new.xlsx", row.names=F, sheetName="accessNew", append=FALSE)

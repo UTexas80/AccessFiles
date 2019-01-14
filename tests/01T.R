@@ -47,3 +47,12 @@ lapply(tfiles, function(x) tail("names<-"(x, x[1, ]), -1))
 
 
 filter(grepl("^8", UGAID))                                                      # regex             https://tinyurl.com/yazzrnu3
+
+# data.table replace values by reference                                                            https://tinyurl.com/y8chogc8
+new[, 1:2 := ""]
+new[, c(15, 19) := ""]
+new[, 5 := ""]
+new[, 9 := ""]
+
+# chain column rename in data.table r
+setnames(DT, old = c("oldname1", "oldname2", "oldname3"), new = c("newname1", "newname2", "newname3"))                                      https://tinyurl.com/ybw8dgqn
